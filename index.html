@@ -1,1 +1,59 @@
-<p>Olá mundo!</p>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário de Práticas</title>
+</head>
+<body>
+  <h1>Formulário de Práticas</h1>
+
+  <form id="formulario">
+    <fieldset>
+      <legend>1. Quais destas práticas você já implementa?</legend>
+      <label><input type="checkbox" name="implementadas" value="Prática A"> Prática A</label><br>
+      <label><input type="checkbox" name="implementadas" value="Prática B"> Prática B</label><br>
+      <label><input type="checkbox" name="implementadas" value="Prática C"> Prática C</label><br>
+      <label><input type="checkbox" name="implementadas" value="Prática D"> Prática D</label><br>
+    </fieldset>
+
+    <br>
+    <button type="button" onclick="mostrarNaoImplementadas()">Próximo</button>
+  </form>
+
+  <div id="segunda-pergunta" style="display:none;">
+    <fieldset>
+      <legend>2. Quais práticas que você ainda não implementou pretende adotar futuramente?</legend>
+      <form>
+        <div id="opcoes-nao-implementadas"></div>
+      </form>
+    </fieldset>
+  </div>
+
+  <script>
+    const todasAsPraticas = ['Prática A', 'Prática B', 'Prática C', 'Prática D'];
+
+    function mostrarNaoImplementadas() {
+      const selecionadas = Array.from(document.querySelectorAll('input[name="implementadas"]:checked'))
+                                .map(el => el.value);
+
+      const naoSelecionadas = todasAsPraticas.filter(p => !selecionadas.includes(p));
+
+      const container = document.getElementById('opcoes-nao-implementadas');
+      container.innerHTML = ''; // limpa antes de adicionar novas opções
+
+      if (naoSelecionadas.length === 0) {
+        container.innerHTML = '<p>Todas as práticas já foram implementadas!</p>';
+      } else {
+        naoSelecionadas.forEach(pratica => {
+          const label = document.createElement('label');
+          label.innerHTML = `<input type="checkbox" name="pretende" value="${pratica}"> ${pratica}`;
+          container.appendChild(label);
+          container.appendChild(document.createElement('br'));
+        });
+      }
+
+      document.getElementById('segunda-pergunta').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
