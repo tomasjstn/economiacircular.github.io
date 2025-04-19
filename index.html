@@ -68,6 +68,11 @@
       </form>
     </fieldset>
   </div>
+  
+  <br>
+  <button type="button" onclick="enviarRespostas()">Enviar Respostas</button>
+  <p id="status"></p>
+  
 
   <script>
     function mostrarPretendidas() {
@@ -97,6 +102,34 @@
 
       document.getElementById('segunda-pergunta').style.display = 'block';
     }
+    function enviarRespostas() {
+      const data = {
+        "Prática A": document.querySelector('select[name="Prática A"]').value,
+        "Prática B": document.querySelector('select[name="Prática B"]').value,
+        "Prática C": document.querySelector('select[name="Prática C"]').value,
+        "Prática D": document.querySelector('select[name="Prática D"]').value,
+        "pretende": Array.from(document.querySelectorAll('input[name="pretende"]:checked'))
+                         .map(el => el.value)
+      };
+    
+      fetch("https://script.google.com/macros/s/AKfycbwqSAUCOECFKMT6QjvAxce5DObjRUq0VVUFgS_OW7xGwXKKNmTOJZwLJcLudeq6sqiw8A/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.text())
+      .then(msg => {
+        document.getElementById("status").textContent = "Respostas enviadas com sucesso!";
+      })
+      .catch(err => {
+        document.getElementById("status").textContent = "Erro ao enviar respostas.";
+        console.error(err);
+      });
+    }
+
   </script>
+  
 </body>
 </html>
+
+
