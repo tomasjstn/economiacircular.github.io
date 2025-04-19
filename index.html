@@ -2,51 +2,94 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Formulário de Práticas</title>
+  <title>Formulário com Escala de Likert</title>
 </head>
 <body>
-  <h1>Formulário de Práticas</h1>
+  <h1>Formulário de Práticas - Escala de Implementação</h1>
 
   <form id="formulario">
     <fieldset>
-      <legend>1. Quais destas práticas você já implementa?</legend>
-      <label><input type="checkbox" name="implementadas" value="Prática A"> Prática A</label><br>
-      <label><input type="checkbox" name="implementadas" value="Prática B"> Prática B</label><br>
-      <label><input type="checkbox" name="implementadas" value="Prática C"> Prática C</label><br>
-      <label><input type="checkbox" name="implementadas" value="Prática D"> Prática D</label><br>
+      <legend>1. Em que nível você implementa as seguintes práticas?</legend>
+
+      <div>
+        <label>Prática A:</label><br>
+        <select name="Prática A">
+          <option value="1">1 - Não implementada</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 - Totalmente implementada</option>
+        </select>
+      </div><br>
+
+      <div>
+        <label>Prática B:</label><br>
+        <select name="Prática B">
+          <option value="1">1 - Não implementada</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 - Totalmente implementada</option>
+        </select>
+      </div><br>
+
+      <div>
+        <label>Prática C:</label><br>
+        <select name="Prática C">
+          <option value="1">1 - Não implementada</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 - Totalmente implementada</option>
+        </select>
+      </div><br>
+
+      <div>
+        <label>Prática D:</label><br>
+        <select name="Prática D">
+          <option value="1">1 - Não implementada</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 - Totalmente implementada</option>
+        </select>
+      </div><br>
     </fieldset>
 
     <br>
-    <button type="button" onclick="mostrarNaoImplementadas()">Próximo</button>
+    <button type="button" onclick="mostrarPretendidas()">Próximo</button>
   </form>
 
   <div id="segunda-pergunta" style="display:none;">
     <fieldset>
-      <legend>2. Quais práticas que você ainda não implementou pretende adotar futuramente?</legend>
+      <legend>2. Quais dessas práticas você pretende implementar futuramente?</legend>
       <form>
-        <div id="opcoes-nao-implementadas"></div>
+        <div id="pretende-implementar"></div>
       </form>
     </fieldset>
   </div>
 
   <script>
-    const todasAsPraticas = ['Prática A', 'Prática B', 'Prática C', 'Prática D'];
+    function mostrarPretendidas() {
+      const todas = ['Prática A', 'Prática B', 'Prática C', 'Prática D'];
+      const pretende = [];
 
-    function mostrarNaoImplementadas() {
-      const selecionadas = Array.from(document.querySelectorAll('input[name="implementadas"]:checked'))
-                                .map(el => el.value);
+      todas.forEach(pratica => {
+        const valor = document.querySelector(`select[name="${pratica}"]`).value;
+        if (valor === '1' || valor === '2') {
+          pretende.push(pratica);
+        }
+      });
 
-      const naoSelecionadas = todasAsPraticas.filter(p => !selecionadas.includes(p));
+      const container = document.getElementById('pretende-implementar');
+      container.innerHTML = '';
 
-      const container = document.getElementById('opcoes-nao-implementadas');
-      container.innerHTML = ''; // limpa antes de adicionar novas opções
-
-      if (naoSelecionadas.length === 0) {
-        container.innerHTML = '<p>Todas as práticas já foram implementadas!</p>';
+      if (pretende.length === 0) {
+        container.innerHTML = '<p>Você já implementou todas as práticas em bom nível.</p>';
       } else {
-        naoSelecionadas.forEach(pratica => {
+        pretende.forEach(p => {
           const label = document.createElement('label');
-          label.innerHTML = `<input type="checkbox" name="pretende" value="${pratica}"> ${pratica}`;
+          label.innerHTML = `<input type="checkbox" name="pretende" value="${p}"> ${p}`;
           container.appendChild(label);
           container.appendChild(document.createElement('br'));
         });
